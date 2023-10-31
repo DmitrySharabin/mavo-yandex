@@ -180,6 +180,7 @@ const _ = Mavo.Backend.register(
 		static apiDomain = "https://cloud-api.yandex.net/v1/disk/";
 		static oAuth = "https://oauth.yandex.ru/authorize";
 		static key = "058fa9986615469dbed89ff6b5983038"; // Client ID
+		static useCache = false;
 
 		/**
 		 * Parse Yandex Disk URLs.
