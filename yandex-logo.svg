@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40">
+  <defs>
+    <path d="M0 595.28h841.89V0H0Z" id="a"/>
+  </defs>
+  <defs>
+    <clipPath clipPathUnits="userSpaceOnUse" id="b">
+      <use transform="translate(-197.18 -292.96)" xlink:href="#a"/>
+    </clipPath>
+    <clipPath clipPathUnits="userSpaceOnUse" id="c">
+      <use transform="translate(-247.67 -269)" xlink:href="#a"/>
+    </clipPath>
+    <clipPath clipPathUnits="userSpaceOnUse" id="d">
+      <use transform="translate(-181.1 -213.8)" xlink:href="#a"/>
+    </clipPath>
+  </defs>
+  <path d="M0 0c-12.73 11.66-25.77 16.9-41.34 12.73-15.57-4.17-24.24-15.23-29.44-31.7C-74.07-29.38-81-35.9-81-35.9l49.03 13.67 48.57 13S8.06-7.38 0 0" style="fill:#000;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="matrix(.23314 0 0 -.23314 25.93 12)" clip-path="url(#b)"/>
+  <path d="M0 0c-4.26 15.8-41.7 19.53-83.61 8.4-41.95-11.13-72.46-33.2-68.2-49.08 2.94-11 21.85-16.22 47.14-14.6a6.7 6.7 0 0 0-2.09 3.32c-2.3 8.61 13.05 17.5 33.22 22.91 20.17 5.4 37.8 5.12 40.05-3.28.35-1.3.29-2.6-.15-3.92C-10.86-24.98 2.98-11.03 0 0" style="fill:#4b82d7;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="matrix(.23314 0 0 -.23314 37.7 17.58)" clip-path="url(#c)"/>
+  <path d="M0 0c20.31 5.44 35.49 14.6 33.24 23s-19.97 8.73-40.28 3.29c-20.32-5.45-35.51-14.53-33.24-23C-38.01-5.18-20.31-5.44 0 0" style="fill:#e7e7e7;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="matrix(.23314 0 0 -.23314 22.18 30.45)" clip-path="url(#d)"/>
+</svg>

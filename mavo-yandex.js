@@ -88,14 +88,48 @@ const _ = Mavo.Backend.register(
 		 * @param {string} [path] Optional file path.
 		 * @return {Promise} A promise that resolves when the file is saved.
 		 */
-		async put (serialized, path = this.path) {}
+		async put (serialized, path = this.path) {
+			if (this.isAuthenticated()) {
+				const headers = {
+					Authorization: `OAuth ${this.accessToken}`
+				};
+
+				const resource = await this.request(`resources/upload?path=/${path}&overwrite=true`, undefined, "GET", { headers });
+
+				return fetch(resource.href, {
+					method: "PUT",
+					body: serialized
+				});
+			}
+		}
 
 		/**
 		 * Upload a file to the backend.
 		 * @param {File} file File object to be uploaded.
-		 * @param {*} path Relative path to store uploads (e.g., “images”).
+		 * @param {string} path Relative path to store uploads (e.g., “images”).
 		 */
-		async upload (file, path) {}
+		async upload (file, path = this.path) {
+			// Try to create a folder where we can upload the file first
+			try {
+				let folder = path.split("/").slice(0, -1).join("/");
+				folder = this.filepath? this.filepath + "/" + folder : folder;
+
+				await this.request(`resources?path=/${folder}`, undefined, "PUT", { headers: {
+					Authorization: `OAuth ${this.accessToken}`
+				} });
+			}
+			catch (e) {
+				if (e.status !== 409) {
+					throw new Error(e.description);
+				}
+			}
+
+			// If the folder already exists or was successfully created, try upload the file
+			path = this.path.replace(/[^/]+$/, "") + path; // make upload path relative to existing path
+			await this.put(file, path);
+
+			return /^\w+:/.test(path)? path : this.rootPath + "/" + path; // Don't touch absolute URLs
+		}
 
 		/**
 		 * Authenticate a user.
@@ -154,9 +188,7 @@ const _ = Mavo.Backend.register(
 		 * @returns filepath, filename, path, public key.
 		 */
 		static parseURL (source, defaults = {}) {
-			const ret = {
-				publicKey: undefined
-			};
+			const ret = {};
 
 			// Define computed properties as writable accessors
 			Object.defineProperties(ret, {
@@ -188,8 +220,8 @@ const _ = Mavo.Backend.register(
 			const isPublic = path[0] === "d"; // If true, we have a public file or folder
 
 			// Drop either “client” and “disk” or “d” and “...”
-			// We might need them if we have a public file or folder
-			const firstTwoSegments = path.splice(0, 2);
+			// We might need them if we have a public file or folder and/or uploading files
+			ret.rootPath = [url.origin, ...path.splice(0, 2)].join("/");
 
 			const lastSegment = path.at(-1);
 
@@ -204,7 +236,7 @@ const _ = Mavo.Backend.register(
 			ret.filepath = path.join("/") || (!isPublic? defaults.filepath : "");
 
 			if (isPublic) {
-				ret.publicKey = [url.origin, ...firstTwoSegments].join("/");
+				ret.publicKey = ret.rootPath;
 			}
 
 			return ret;
