@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="https://get.mavo.io/mavo.css" />
+	<link rel="stylesheet" href="https://test.mavo.io/style.css" />
+
+	<title>Yandex Backend Tests</title>
+</head>
+
+<body>
+	<h1>Yandex Backend Tests</h1>
+
+	<section mv-app="basic" mv-source="https://disk.yandex.ru/client/disk/mv-data/countries.json">
+		<h1>Basic</h1>
+		<p>Log in for this test to pass.</p>
+
+		<table class="reftest">
+			<tr>
+				<td>
+					<ul mv-list>
+						<li mv-list-item="country">
+							<span property="code">Code</span>
+							<span property="name">Name</span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>Online</li>
+						<li>us United States</li>
+						<li>gb United Kingdom</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
+	<section mv-app="persons" mv-source="https://disk.yandex.ru/client/disk">
+		<h1>Defaults</h1>
+		<p>Log in for this test to pass.</p>
+
+		<table class="reftest">
+			<tr>
+				<td>
+					<ul mv-list>
+						<li mv-list-item="person">
+							<span property="name">Name</span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>Lea Verou</li>
+						<li>David Karger</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
+	<section mv-app="storage_attributes_private" mv-source="https://disk.yandex.ru/client/disk/"
+		mv-source-filepath="mv-data/private" mv-source-filename="persons.json">
+		<h1>Storage attributes</h1>
+		<p>Log in for this test to pass.</p>
+
+		<table class="reftest">
+			<tr>
+				<td>
+					<ul mv-list>
+						<li mv-list-item="person">
+							<span property="name">Name</span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>Lea Verou</li>
+						<li>David Karger</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
+	<section mv-app="public_file" mv-bar="none" mv-source="https://disk.yandex.com/d/ahNF6_YRiAkeZA">
+		<h1>Public file</h1>
+
+		<table class="reftest">
+			<tr>
+				<td>
+					<ul mv-list>
+						<li mv-list-item="country">
+							<span property="code">Code</span>
+							<span property="name">Name</span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>Online</li>
+						<li>us United States</li>
+						<li>gb United Kingdom</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
+	<section mv-app="public_folder" mv-bar="none" mv-source="https://disk.yandex.com/d/RJJgoQNFJlWO9Q/countries.json">
+		<h1>File in a public folder</h1>
+
+		<table class="reftest">
+			<tr>
+				<td>
+					<ul mv-list>
+						<li mv-list-item="country">
+							<span property="code">Code</span>
+							<span property="name">Name</span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>Online</li>
+						<li>us United States</li>
+						<li>gb United Kingdom</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
+	<section mv-app="storage_attributes_public" mv-bar="none" mv-source="https://disk.yandex.com/d/RJJgoQNFJlWO9Q"
+		mv-source-path="subfolder/persons.json">
+		<h1>Storage attributes for a public folder</h1>
+
+		<table class="reftest">
+			<tr>
+				<td>
+					<ul mv-list>
+						<li mv-list-item="person">
+							<span property="name">Name</span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>Lea Verou</li>
+						<li>David Karger</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
+	<script src="https://get.mavo.io/mavo.js"></script>
+	<script src="https://test.mavo.io/test.js"></script>
+	<script src="mavo-yandex.js"></script>
+</body>
+
+</html>
