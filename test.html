@@ -162,6 +162,43 @@
 		<img property="image" src="yandex-logo.svg" style="max-width: 400px">
 	</section>
 
+	<section>
+		<h1>mv-format</h1>
+		<p>Log in for this test to pass.</p>
+
+		<table class="reftest">
+			<tr>
+				<td mv-app="implicitmvformat" mv-storage="https://disk.yandex.com/client/disk/mv-data/markdown.md"
+					mv-format="text">
+					<div property="content"></div>
+				</td>
+				<td>
+					<div>
+						# Heading
+
+						Paragraph **bold** *italic*
+					</div>
+				</td>
+			</tr>
+			<tr title="CSV from Yandex.Disk, implicit mv-format">
+				<td mv-app="csvyandex" mv-storage="https://disk.yandex.com/client/disk/mv-data/csv.csv">
+					<ul mv-list>
+						<li property="row" mv-list-item>
+							<span property="prop1"></span>
+							<span property="prop2"></span>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>1 φού</li>
+						<li>2 bar</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</section>
+
 	<script src="https://get.mavo.io/mavo.js"></script>
 	<script src="https://test.mavo.io/test.js"></script>
 	<script src="mavo-yandex.js"></script>
