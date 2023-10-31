@@ -60,7 +60,7 @@ const _ = Mavo.Backend.register(
 				const resource = await this.request(call);
 				const params = new URL(resource.href).searchParams;
 
-				return this.request(resource.href, {}, resource.method, {
+				return this.request(resource.href, undefined, resource.method, {
 					headers: {
 						"Content-Type": params.get("content_type")
 					}
@@ -72,10 +72,10 @@ const _ = Mavo.Backend.register(
 					Authorization: `OAuth ${this.accessToken}`
 				};
 
-				const resource = await this.request(`resources/download?path=/${this.path}`, {}, "GET", { headers });
+				const resource = await this.request(`resources/download?path=/${this.path}`, undefined, "GET", { headers });
 				const params = new URL(resource.href).searchParams;
 
-				return this.request(resource.href, {}, resource.method, { headers: {
+				return this.request(resource.href, undefined, resource.method, { headers: {
 					...headers,
 					"Content-Type": params.get("content_type")
 				} });
