@@ -82,7 +82,7 @@ const _ = Mavo.Backend.register(
 				}
 			}
 
-			return response.ok? response.text() : null;
+			return response?.ok? response.text() : null;
 		}
 
 		/**
