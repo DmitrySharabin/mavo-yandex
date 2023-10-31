@@ -50,36 +50,39 @@ const _ = Mavo.Backend.register(
 			$.extend(this, this.info);
 		}
 
-		async load () {
+		async get () {
+			let response;
 			if (this.publicKey) {
 				let call = `public/resources/download?public_key=${this.publicKey}`;
 				if (this.path) {
 					call += `&path=/${this.path}`;
 				}
 
-				const resource = await this.request(call);
-				const params = new URL(resource.href).searchParams;
-
-				return this.request(resource.href, undefined, resource.method, {
-					headers: {
-						"Content-Type": params.get("content_type")
-					}
-				});
+				response = await fetch(call);
+				if (response.ok) {
+					const resource = await response.json();
+					response = await fetch(resource.href);
+				}
+				else {
+					return null;
+				}
 			}
-
-			if (this.isAuthenticated()) {
+			else if (this.isAuthenticated()) {
 				const headers = {
 					Authorization: `OAuth ${this.accessToken}`
 				};
 
-				const resource = await this.request(`resources/download?path=/${this.path}`, undefined, "GET", { headers });
-				const params = new URL(resource.href).searchParams;
-
-				return this.request(resource.href, undefined, resource.method, { headers: {
-					...headers,
-					"Content-Type": params.get("content_type")
-				} });
+				response = await fetch(`${_.apiDomain}resources/download?path=/${this.path}`, { headers });
+				if (response.ok) {
+					const resource = await response.json();
+					response = await fetch(resource.href, { headers });
+				}
+				else {
+					return null;
+				}
 			}
+
+			return response.ok? response.text() : null;
 		}
 
 		/**
@@ -90,16 +93,22 @@ const _ = Mavo.Backend.register(
 		 */
 		async put (serialized, path = this.path) {
 			if (this.isAuthenticated()) {
-				const headers = {
-					Authorization: `OAuth ${this.accessToken}`
-				};
-
-				const resource = await this.request(`resources/upload?path=/${path}&overwrite=true`, undefined, "GET", { headers });
-
-				return fetch(resource.href, {
-					method: "PUT",
-					body: serialized
+				const response = await fetch(`${_.apiDomain}resources/upload?path=/${path}&overwrite=true`, {
+					headers: {
+						Authorization: `OAuth ${this.accessToken}`
+					}
 				});
+
+				if (response.ok) {
+					const resource = await response.json();
+
+					return fetch(resource.href, {
+						method: "PUT",
+						body: serialized
+					});
+				}
+
+				return;
 			}
 		}
 
@@ -109,19 +118,21 @@ const _ = Mavo.Backend.register(
 		 * @param {string} path Relative path to store uploads (e.g., “images”).
 		 */
 		async upload (file, path = this.path) {
-			// Try to create a folder where we can upload the file first
-			try {
-				let folder = path.split("/").slice(0, -1).join("/");
-				folder = this.filepath? this.filepath + "/" + folder : folder;
+			// Try to create a folder where the user can upload the file first
+			let folder = path.split("/").slice(0, -1).join("/");
+			folder = this.filepath? this.filepath + "/" + folder : folder;
 
-				await this.request(`resources?path=/${folder}`, undefined, "PUT", { headers: {
-					Authorization: `OAuth ${this.accessToken}`
-				} });
-			}
-			catch (e) {
-				if (e.status !== 409) {
-					throw new Error(e.description);
+			const response = await fetch(`${_.apiDomain}resources?path=/${folder}`,
+				{
+					method: "PUT",
+					headers: {
+						Authorization: `OAuth ${this.accessToken}`
+					}
 				}
+			);
+
+			if (!response.ok && response.status !== 409) {
+				throw response;
 			}
 
 			// If the folder already exists or was successfully created, try upload the file
