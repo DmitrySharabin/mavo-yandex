@@ -23,6 +23,8 @@ Done!
 - `https://disk.yandex.com/d/RJJgoQNFJlWO9Q/baz.json`—file in a public (shared) folder
 - `https://disk.yandex.com/d/RJJgoQNFJlWO9Q/foo/bar/baz.json`—file in a subfolder of a public folder
 
+**Note:** URLs starting with `https://disk.yandex.ru` are also supported.
+
 **Warning:** Public files have download limits. The plugin will return the `404` (Not Found) error when you are out of limits.
 
 ## Supported [storage attributes](https://mavo.io/docs/storage#storage-attributes)
