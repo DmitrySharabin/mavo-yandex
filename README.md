@@ -18,7 +18,7 @@ Done!
 
 - `https://disk.yandex.com/client/disk/baz.json`—private file in the root of the disk
 - `https://disk.yandex.com/client/disk/foo/bar/baz.json`—private file in a nested folder
-- `https://disk.yandex.com/client/disk`—file named `APP_ID.json` (where `APP_ID` is the name of your app) in the `mv-data` folder
+- `https://disk.yandex.com/client/disk`—private file named `APP_ID.json` (where `APP_ID` is the name of your app) in the `mv-data` folder
 - `https://disk.yandex.com/d/ahNF6_YRiAkeZA`—public (shared) file
 - `https://disk.yandex.com/d/RJJgoQNFJlWO9Q/baz.json`—file in a public (shared) folder
 - `https://disk.yandex.com/d/RJJgoQNFJlWO9Q/foo/bar/baz.json`—file in a subfolder of a public folder
