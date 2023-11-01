@@ -22,6 +22,7 @@ Done!
 - `https://disk.yandex.com/d/ahNF6_YRiAkeZA`—public (shared) file
 - `https://disk.yandex.com/d/RJJgoQNFJlWO9Q/baz.json`—file in a public (shared) folder
 - `https://disk.yandex.com/d/RJJgoQNFJlWO9Q/foo/bar/baz.json`—file in a subfolder of a public folder
+- `https://disk.yandex.com/d/RJJgoQNFJlWO9Q/foo/bar`—file named `APP_ID.json` (where `APP_ID` is the name of your app) in a subfolder of a public folder
 
 **Note:** URLs starting with `https://disk.yandex.ru` are also supported.
 

@@ -40,6 +40,17 @@
 				</td>
 			</tr>
 
+			<tr title="Default filename">
+				<td>https://disk.yandex.com/client/disk/foo/bar</td>
+				<td>{
+					path: "foo/bar/countries.json",
+					rootPath: "https://disk.yandex.com/client/disk",
+					filename: "countries.json",
+					filepath: "foo/bar"
+					}
+				</td>
+			</tr>
+
 			<tr title="Private file in the root">
 				<td>https://disk.yandex.com/client/disk/baz.json</td>
 				<td>{
@@ -68,7 +79,8 @@
 					path: "",
 					rootPath: "https://disk.yandex.com/d/ahNF6_YRiAkeZA",
 					filename: "",
-					filepath: ""
+					filepath: "",
+					publicKey: "https://disk.yandex.com/d/ahNF6_YRiAkeZA"
 					}
 				</td>
 			</tr>
@@ -79,7 +91,8 @@
 					path: "baz.json",
 					rootPath: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q",
 					filename: "baz.json",
-					filepath: ""
+					filepath: "",
+					publicKey: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q"
 					}
 				</td>
 			</tr>
@@ -90,7 +103,20 @@
 					path: "foo/bar/baz.json",
 					rootPath: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q",
 					filename: "baz.json",
-					filepath: "foo/bar"
+					filepath: "foo/bar",
+					publicKey: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q"
+					}
+				</td>
+			</tr>
+
+			<tr title="File with the default name in a subfolder of a public folder">
+				<td>https://disk.yandex.com/d/RJJgoQNFJlWO9Q/foo/bar</td>
+				<td>{
+					path: "foo/bar/countries.json",
+					rootPath: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q",
+					filename: "countries.json",
+					filepath: "foo/bar",
+					publicKey: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q"
 					}
 				</td>
 			</tr>

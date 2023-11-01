@@ -243,11 +243,22 @@ const _ = Mavo.Backend.register(
 				ret.filename = lastSegment;
 				path.splice(path.length - 1, 1);
 			}
+
+			if (!ret.filename) {
+				ret.filepath = path.join("/") || (isPublic? "" : defaults.filepath);
+			}
 			else {
-				ret.filename = !isPublic? defaults.filename : "";
+				ret.filepath = path.join("/") || "";
 			}
 
-			ret.filepath = path.join("/") || (!isPublic? defaults.filepath : "");
+			if (!ret.filename) {
+				if (ret.filepath) {
+					ret.filename = defaults.filename;
+				}
+				else {
+					ret.filename = isPublic? "" : defaults.filename;
+				}
+			}
 
 			if (isPublic) {
 				ret.publicKey = ret.rootPath;
