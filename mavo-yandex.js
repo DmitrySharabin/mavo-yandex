@@ -61,7 +61,7 @@ const _ = Mavo.Backend.register(
 				response = await fetch(call);
 				if (response.ok) {
 					const resource = await response.json();
-					response = await fetch(resource.href);
+					response = await fetch(resource.href, { referrerPolicy: "no-referrer" });
 				}
 				else {
 					return null;
@@ -75,7 +75,10 @@ const _ = Mavo.Backend.register(
 				response = await fetch(`${_.apiDomain}resources/download?path=/${this.path}`, { headers });
 				if (response.ok) {
 					const resource = await response.json();
-					response = await fetch(resource.href, { headers });
+					response = await fetch(resource.href, {
+						referrerPolicy: "no-referrer",
+						headers
+					});
 				}
 				else {
 					return null;
@@ -191,7 +194,6 @@ const _ = Mavo.Backend.register(
 		static apiDomain = "https://cloud-api.yandex.net/v1/disk/";
 		static oAuth = "https://oauth.yandex.ru/authorize";
 		static key = "058fa9986615469dbed89ff6b5983038"; // Client ID
-		static useCache = false;
 
 		/**
 		 * Parse Yandex Disk URLs.
