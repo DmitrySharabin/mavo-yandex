@@ -199,7 +199,7 @@ const _ = Mavo.Backend.register(
 		 * Parse Yandex Disk URLs.
 		 * @param {string} source Resource URL.
 		 * @param {object} defaults Default parameters.
-		 * @returns filepath, filename, path, public key.
+		 * @returns rootPath, filepath, filename, path, publicKey.
 		 */
 		static parseURL (source, defaults = {}) {
 			const ret = {};
