@@ -7,10 +7,114 @@
 	<link rel="stylesheet" href="https://test.mavo.io/style.css" />
 
 	<title>Yandex Backend Tests</title>
+
+	<style>
+		[data-test^="test"] td+td {
+			white-space: pre-line;
+		}
+
+		[data-test^="test"] td:first-of-type,
+		[data-test^="test"] th:first-of-type {
+			word-wrap: break-word;
+			flex: none;
+			width: 20%;
+		}
+	</style>
 </head>
 
 <body>
 	<h1>Yandex Backend Tests</h1>
+
+	<section>
+		<h1>parseURL</h1>
+
+		<table class="reftest" data-test="testParseURL" data-columns="3">
+			<tr title="Defaults">
+				<td>https://disk.yandex.com/client/disk</td>
+				<td>{
+					path: "mv-data/countries.json",
+					rootPath: "https://disk.yandex.com/client/disk",
+					filename: "countries.json",
+					filepath: "mv-data"
+					}
+				</td>
+			</tr>
+
+			<tr title="Private file in the root">
+				<td>https://disk.yandex.com/client/disk/baz.json</td>
+				<td>{
+					path: "baz.json",
+					rootPath: "https://disk.yandex.com/client/disk",
+					filename: "baz.json",
+					filepath: ""
+					}
+				</td>
+			</tr>
+
+			<tr title="Private file in a folder/subfolder">
+				<td>https://disk.yandex.com/client/disk/foo/bar/baz.json</td>
+				<td>{
+					path: "foo/bar/baz.json",
+					rootPath: "https://disk.yandex.com/client/disk",
+					filename: "baz.json",
+					filepath: "foo/bar"
+					}
+				</td>
+			</tr>
+
+			<tr title="Public file">
+				<td>https://disk.yandex.com/d/ahNF6_YRiAkeZA</td>
+				<td>{
+					path: "",
+					rootPath: "https://disk.yandex.com/d/ahNF6_YRiAkeZA",
+					filename: "",
+					filepath: ""
+					}
+				</td>
+			</tr>
+
+			<tr title="File in a public folder">
+				<td>https://disk.yandex.com/d/RJJgoQNFJlWO9Q/baz.json</td>
+				<td>{
+					path: "baz.json",
+					rootPath: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q",
+					filename: "baz.json",
+					filepath: ""
+					}
+				</td>
+			</tr>
+
+			<tr title="File in a subfolder of a public folder">
+				<td>https://disk.yandex.com/d/RJJgoQNFJlWO9Q/foo/bar/baz.json</td>
+				<td>{
+					path: "foo/bar/baz.json",
+					rootPath: "https://disk.yandex.com/d/RJJgoQNFJlWO9Q",
+					filename: "baz.json",
+					filepath: "foo/bar"
+					}
+				</td>
+			</tr>
+		</table>
+
+		<script>
+			function testParseURL (test, result, expected) {
+				try {
+					const r = Mavo.Backend.Yandex.parseURL(test.textContent, {
+						filepath: "mv-data",
+						filename: "countries.json"
+					});
+					result.textContent = Mavo.toJSON(r);
+
+					eval("var exp = " + expected.textContent);
+					return Test.equals(r, exp);
+				} catch (e) {
+					console.error(e);
+					result.textContent = "ERROR";
+					return false;
+				}
+			}
+		</script>
+	</section>
 
 	<section mv-app="basic" mv-source="https://disk.yandex.ru/client/disk/mv-data/countries.json">
 		<h1>Basic</h1>
