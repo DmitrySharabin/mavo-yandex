@@ -138,7 +138,7 @@ const _ = Mavo.Backend.register(
 				throw response;
 			}
 
-			// If the folder already exists or was successfully created, try upload the file
+			// If the folder already exists or was successfully created, try uploading the file
 			path = this.path.replace(/[^/]+$/, "") + path; // make upload path relative to existing path
 			await this.put(file, path);
 
