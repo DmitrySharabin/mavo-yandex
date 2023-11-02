@@ -91,7 +91,7 @@ const _ = Mavo.Backend.register(
 		/**
 		 * Saves a file to the backend.
 		 * @param {string} serialized Serialized data.
-		 * @param {string} [path] Optional file path.
+		 * @param {string} path Optional file path.
 		 * @return {Promise} A promise that resolves when the file is saved.
 		 */
 		async put (serialized, path = this.path) {
