@@ -96,23 +96,55 @@ const _ = Mavo.Backend.register(
 		 */
 		async put (serialized, path = this.path) {
 			if (this.isAuthenticated()) {
-				const response = await fetch(`${_.apiDomain}resources/upload?path=/${path}&overwrite=true`, {
+				let response = await fetch(`${_.apiDomain}resources/upload?path=/${path}&overwrite=true`, {
 					headers: {
 						Authorization: `OAuth ${this.accessToken}`
 					}
 				});
 
-				if (response.ok) {
-					const resource = await response.json();
+				if (!response.ok && response.status === 409) { // 409 — Conflict
+					// Probably, we don't have a folder to store/upload the data/file in.
+					// Let's try to create it
+					const folder = path.split("/").slice(0, -1).join("/");
 
-					return fetch(resource.href, {
-						method: "PUT",
-						body: serialized
+					response = await fetch(`${_.apiDomain}resources?path=/${folder}`,
+						{
+							method: "PUT",
+							headers: {
+								Authorization: `OAuth ${this.accessToken}`
+							}
+						}
+					);
+
+					if (!response.ok) {
+						// One of the reasons we are here is that we can't create subfolders in one shot.
+						// E.g., if “foo” doesn't exist, we can't create “bar” inside “foo”.
+						throw response;
+					}
+
+					// If the folder was successfully created, try storing/uploading the data/file
+					response = await fetch(`${_.apiDomain}resources/upload?path=/${path}&overwrite=true`, {
+						headers: {
+							Authorization: `OAuth ${this.accessToken}`
+						}
 					});
 				}
 
-				return;
+				if (!response.ok) {
+					// We have an issue we don't know how to handle
+					throw response;
+				}
+
+				// If we are here, we can store/upload data/file
+				const resource = await response.json();
+
+				return fetch(resource.href, {
+					method: "PUT",
+					body: serialized
+				});
 			}
+
+			throw new Error(this.mavo._("yandex-log-in"));
 		}
 
 		/**
@@ -121,28 +153,15 @@ const _ = Mavo.Backend.register(
 		 * @param {string} path Relative path to store uploads (e.g., “images”).
 		 */
 		async upload (file, path = this.path) {
-			// Try to create a folder where the user can upload the file first
-			let folder = path.split("/").slice(0, -1).join("/");
-			folder = this.filepath? this.filepath + "/" + folder : folder;
-
-			const response = await fetch(`${_.apiDomain}resources?path=/${folder}`,
-				{
-					method: "PUT",
-					headers: {
-						Authorization: `OAuth ${this.accessToken}`
-					}
-				}
-			);
-
-			if (!response.ok && response.status !== 409) {
-				throw response;
-			}
-
-			// If the folder already exists or was successfully created, try uploading the file
 			path = this.path.replace(/[^/]+$/, "") + path; // make upload path relative to existing path
-			await this.put(file, path);
 
-			return /^\w+:/.test(path)? path : this.rootPath + "/" + path; // Don't touch absolute URLs
+			const response = await this.put(file, path, {upload: true});
+			if (response?.ok) {
+				return /^\w+:/.test(path)? path : this.rootPath + "/" + path; // Don't touch absolute URLs
+			}
+			else {
+				throw new Error(`${response.status} ${response.statusText}`);
+			}
 		}
 
 		/**
@@ -279,5 +298,7 @@ const _ = Mavo.Backend.register(
 	}
 );
 
-Mavo.Locale.register("en", {});
+Mavo.Locale.register("en", {
+	"yandex-log-in": "Please log in to your account to store your data and upload files."
+});
 })(Bliss);
