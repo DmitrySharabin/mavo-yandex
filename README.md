@@ -28,6 +28,20 @@ Done!
 
 **Warning:** Public files have download limits. The plugin will return the `404` (Not Found) error when you are out of limits.
 
+## Storing data and uploading files
+
+**Note:** You must log in to your Yandex account to save data and upload files.
+
+In most cases, if you read data from the existing file (optionally located in a folder on your Yandex disk), the plugin will store your data in the same file (in the same folder).
+
+However, there might be cases when you don't have a file with data on your Yandex disk yet. The plugin will try to create the file on saving for you in those cases.
+
+Suppose you provided `https://disk.yandex.com/client/disk` as the `mv-storage` value. And you don't have a default `mv-data` folder on your Yandex disk with the file `APP_ID.json`, where `APP_ID` is the name of your app, in it. On saving data, the plugin will automatically create the `mv-data` folder with the `APP_ID.json` file to store your data in. Similarly, the plugin will create folder `foo` with the `bar.json` file if they don't exist and you provided `https://disk.yandex.com/client/disk/foo/bar.json` as the `mv-storage` value.
+
+**Warning:** If you try to store your data in the `baz.json` file inside the `bar` subfolder of the `foo` folder (i.e., you provided `https://disk.yandex.com/client/disk/foo/bar/baz.json` as the `mv-storage` value), and `foo` **doesn't exist**, you'll get an error. The plugin _can not create nested folders_. That might change in the future, though. 😉
+
+The same rules are applied when you try to upload your files.
+
 ## Supported [storage attributes](https://mavo.io/docs/storage#storage-attributes)
 
 | Parameter  | Example            |
@@ -35,3 +49,9 @@ Done!
 | `filepath` | `foo/bar`          |
 | `filename` | `baz.json`         |
 | `path`     | `foo/bar/baz.json` |
+
+## [Localization strings](https://mavo.io/docs/ui#localization)
+
+| id              | Value                                                                |
+| --------------- | -------------------------------------------------------------------- |
+| `yandex-log-in` | `Please log in to your account to store your data and upload files.` |
