@@ -249,7 +249,7 @@ const _ = Mavo.Backend.register(
 
 			const url = new URL(source);
 
-			let path = url.pathname.slice(1).split("/");
+			let path = url.pathname.slice(1).split("/").filter(Boolean); // Why filter()? Handle the case when the pathname ends with a slash
 			const isPublic = path[0] === "d"; // If true, we have a public file or folder
 
 			// Drop either “client” and “disk” or “d” and “...”
